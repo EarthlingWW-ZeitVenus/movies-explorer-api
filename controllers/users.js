@@ -7,35 +7,8 @@ const {
   },
 } = require('../utils/constants');
 const BadRequestError = require('../utils/BadRequestError');
-// const NotFoundError = require('../utils/NotFoundError');
 const ConflictsError = require('../utils/ConflictsError');
 const User = require('../models/users');
-
-// const getUsers = (req, res, next) => {
-//   User.find({})
-//     .then((users) => {
-//       res.status(REQUEST_SUCCESS).send({ data: users });
-//     })
-//     .catch(next);
-// };
-
-// const getUser = (req, res, next) => {
-//   const { userId } = req.params;
-//   User.findById(userId)
-//     .then((user) => {
-//       if (!user) {
-//         throw new NotFoundError('Пользователь с указанным id, не найден');
-//       }
-//       res.status(REQUEST_SUCCESS).send({ data: user });
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError('Передано некорректное id пользователя'));
-//         return;
-//       }
-//       next(err);
-//     });
-// };
 
 const currentUser = (req, res, next) => {
   User.findById(req.user._id)
@@ -50,9 +23,7 @@ const login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7d' });
-      const {
-        name, email,
-      } = user;
+      const { name } = user;
       res
         .cookie('jwt', token, { httpOnly: true, sameSite: 'none' })
         .status(REQUEST_SUCCESS)
@@ -65,12 +36,10 @@ const login = (req, res, next) => {
     .catch(next);
 };
 
-const logout = (req, res) => {
-  return res
-    .clearCookie('jwt')
-    .status(REQUEST_SUCCESS)
-    .send({ message: 'Вы успешно вышли!' });
-};
+const logout = (req, res) => res
+  .clearCookie('jwt')
+  .status(REQUEST_SUCCESS)
+  .send({ message: 'Вы успешно вышли!' });
 
 const createUser = (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
@@ -126,32 +95,9 @@ const updateUser = (req, res, next) => {
     });
 };
 
-// const updateAvatar = (req, res, next) => {
-//   User.findByIdAndUpdate(req.user._id, req.body, {
-//     new: true,
-//     runValidators: true,
-//   })
-//     .then((user) => {
-//       res.status(REQUEST_SUCCESS).send({ data: user });
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError('Передано некорректное id пользователя'));
-//         return;
-//       } if (err.name === 'ValidationError') {
-//         next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя'));
-//         return;
-//       }
-//       next(err);
-//     });
-// };
-
 module.exports = {
-  // getUsers,
-  // getUser,
   createUser,
   updateUser,
-  // updateAvatar,
   login,
   currentUser,
   logout,

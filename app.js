@@ -4,7 +4,7 @@ const app = express();
 // const path = require('path');
 
 const { PORT = 3000 } = process.env;
-const { NODE_ENV = "development" } = process.env;
+const { NODE_ENV = 'development' } = process.env;
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');

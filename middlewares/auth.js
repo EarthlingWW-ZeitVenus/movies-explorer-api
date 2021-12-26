@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const AuthorizationError = require('../utils/AuthorizationError');
 const AuthenticationError = require('../utils/AuthenticationError');
 
-//Не забыть создать условие для использования двух разных ключей для продакшн и девелоп-режимов
 const auth = (req, res, next) => {
   const token = req.cookies.jwt;
   if (!token) {
