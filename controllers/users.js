@@ -1,4 +1,3 @@
-const { NODE_ENV, JWT_SECRET } = process.env;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {
@@ -6,6 +5,8 @@ const {
     REQUEST_SUCCESS,
     RESOURCE_CREATED_SUCCESS,
   },
+  JWT_SECRET_KEY,
+  COOKIE_OPTIONS,
 } = require('../utils/constants');
 const BadRequestError = require('../utils/BadRequestError');
 const ConflictsError = require('../utils/ConflictsError');
@@ -25,12 +26,12 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key',
+        JWT_SECRET_KEY,
         { expiresIn: '7d' },
       );
       const { name } = user;
       res
-        .cookie('jwt', token, { httpOnly: true, sameSite: 'none' })
+        .cookie('jwt', token, COOKIE_OPTIONS)
         .status(REQUEST_SUCCESS)
         .send({
           data: {
