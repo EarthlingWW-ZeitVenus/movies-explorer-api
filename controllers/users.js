@@ -5,7 +5,7 @@ const {
     REQUEST_SUCCESS,
     RESOURCE_CREATED_SUCCESS,
   },
-  JWT_SECRET_KEY,
+  JWT_SECRET,
   COOKIE_OPTIONS,
 } = require('../utils/constants');
 const BadRequestError = require('../utils/BadRequestError');
@@ -26,7 +26,7 @@ const login = (req, res, next) => {
     .then((user) => {
       const token = jwt.sign(
         { _id: user._id },
-        JWT_SECRET_KEY,
+        JWT_SECRET,
         { expiresIn: '7d' },
       );
       const { name } = user;
