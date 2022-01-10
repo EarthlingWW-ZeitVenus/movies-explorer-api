@@ -93,10 +93,15 @@ const updateUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestError('Передано некорректное id пользователя'));
         return;
-      } if (err.name === 'ValidationError') {
+      };
+      if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя'));
         return;
-      }
+      };
+      if (err.code === 11000 ) {
+        next(new ConflictsError('Данный почтовый ящик уже используется'));
+        return;
+      };
       next(err);
     });
 };

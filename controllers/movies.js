@@ -21,7 +21,7 @@ const getMovies = (req, res, next) => {
 const createMovie = (req, res, next) => {
   const {
     country, director, duration, year, description, image,
-    trailer, thumbnail, movieid, nameRU, nameEN,
+    trailer, thumbnail, movield, nameRU, nameEN,
   } = req.body;
   const owner = req.user._id;
   Movie.create({
@@ -33,7 +33,7 @@ const createMovie = (req, res, next) => {
     image,
     trailer,
     thumbnail,
-    movieid,
+    movield,
     nameRU,
     nameEN,
     owner,
@@ -57,7 +57,7 @@ const deleteMovie = (req, res, next) => {
       if (String(movie.owner._id) !== String(req.user._id)) {
         throw new AuthorizationError('Вы не можете удалять чужие фильмы');
       }
-      Movie.findOneAndRemove({ movieid: req.params.movieId })
+      return Movie.findOneAndRemove({ movieid: req.params.movieId })
         .then(() => {
           res.status(REQUEST_SUCCESS).send({ message: `Фильм ${movie.nameRU} удален` });
         });

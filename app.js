@@ -12,10 +12,10 @@ const limiter = require('./middlewares/rate-limiter');
 mongoose.connect(MONGODB_URL);
 
 const app = express();
+app.use(requestLogger);
 app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
-app.use(requestLogger);
 app.use(helmet());
 app.use('/', rootRouter);
 app.use(errorLogger);

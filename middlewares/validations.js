@@ -18,8 +18,8 @@ const validateSignin = celebrate({
 
 const validateUdateUser = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    email: Joi.string().email(),
+    name: Joi.string().min(2).max(30).required(),
+    email: Joi.string().email().required(),
   }),
 });
 
@@ -33,8 +33,7 @@ const validateCreateMovie = celebrate({
     image: Joi.string().required().pattern(regExpUrl),
     trailer: Joi.string().required().pattern(regExpUrl),
     thumbnail: Joi.string().required().pattern(regExpUrl),
-    owner: Joi.string().length(24).hex().required(),
-    movieid: Joi.string().hex().required(),
+    movield: Joi.number().integer().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
@@ -42,7 +41,7 @@ const validateCreateMovie = celebrate({
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().hex(),
+    movieId: Joi.number().integer().required(),
   }),
 });
 
