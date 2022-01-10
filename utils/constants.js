@@ -1,12 +1,5 @@
 require('dotenv').config();
 
-const {
-  NODE_ENV = 'development',
-  JWT_SECRET,
-  PORT = 3000,
-  MONGODB_URL = 'mongodb://localhost:27017/moviesexplorerdb',
-} = process.env;
-
 const errorCodes = {
   BAD_REQUEST_ERROR: 400,
   AUTHENTICATION_ERROR: 401,
@@ -29,7 +22,14 @@ const COOKIE_OPTIONS = {
   maxAge: 1000 * 60 * 60 * 24 * 7, // куки будет удален через неделю
 };
 
-const JWT_SECRET_KEY = NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key';
+const {
+  NODE_ENV = 'development',
+  JWT_SECRET = 'some-secret-key',
+  PORT = 3000,
+  MONGODB_URL = 'mongodb://localhost:27017/moviesexplorerdb',
+} = process.env;
+
+// const JWT_SECRET_KEY = NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key';
 
 module.exports = {
   errorCodes,
@@ -37,7 +37,7 @@ module.exports = {
   regExpUrl,
   MONGODB_URL,
   COOKIE_OPTIONS,
-  JWT_SECRET_KEY,
+  JWT_SECRET,
   PORT,
   NODE_ENV,
 };
