@@ -1,13 +1,10 @@
 const jwt = require('jsonwebtoken');
 const AuthorizationError = require('../utils/AuthorizationError');
 const AuthenticationError = require('../utils/AuthenticationError');
-const { NODE_ENV, JWT_SECRET } = require('../utils/constants');
+const { JWT_SECRET } = require('../utils/constants');
 
 const auth = (req, res, next) => {
   const token = req.cookies.jwt;
-  console.log(NODE_ENV);
-  console.log(JWT_SECRET);
-  // res.send({ message: `NODE_ENV: - ${NODE_ENV}, JWT_SECRET: - ${JWT_SECRET}` });
   if (!token) {
     next(new AuthenticationError('Необходима аутентификация'));
     return;
