@@ -2,7 +2,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {
   successCodes: {
-    REQUEST_SUCCESS,
     RESOURCE_CREATED_SUCCESS,
   },
   JWT_SECRET,
@@ -15,7 +14,7 @@ const User = require('../models/users');
 const currentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
-      res.status(REQUEST_SUCCESS).send({ data: user });
+      res.send({ data: user });
     })
     .catch(next);
 };
@@ -32,7 +31,6 @@ const login = (req, res, next) => {
       const { name } = user;
       res
         .cookie('jwt', token, COOKIE_OPTIONS)
-        .status(REQUEST_SUCCESS)
         .send({
           data: {
             name, email,
@@ -44,7 +42,6 @@ const login = (req, res, next) => {
 
 const logout = (req, res) => res
   .clearCookie('jwt')
-  .status(REQUEST_SUCCESS)
   .send({ message: 'Вы успешно вышли!' });
 
 const createUser = (req, res, next) => {
@@ -69,14 +66,12 @@ const createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
-        return;
+        return next(new BadRequestError('Переданы некорректные данные при создании пользователя'));
       }
       if (err.code === 11000) {
-        next(new ConflictsError('Пользователь с данной почтой уже зарегистрирован'));
-        return;
+        return next(new ConflictsError('Пользователь с данной почтой уже зарегистрирован'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -87,22 +82,19 @@ const updateUser = (req, res, next) => {
     // upsert: true //создает новую запись в базе, если не находит среди существующих
   })
     .then((user) => {
-      res.status(REQUEST_SUCCESS).send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Передано некорректное id пользователя'));
-        return;
+        return next(new BadRequestError('Передано некорректное id пользователя'));
       }
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя'));
-        return;
+        return next(new BadRequestError('Переданы некорректные данные при обновлении данных пользователя'));
       }
       if (err.code === 11000) {
-        next(new ConflictsError('Данный почтовый ящик уже используется'));
-        return;
+        return next(new ConflictsError('Данный почтовый ящик уже используется'));
       }
-      next(err);
+      return next(err);
     });
 };
 

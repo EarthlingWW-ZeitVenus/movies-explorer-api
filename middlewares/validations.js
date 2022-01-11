@@ -1,5 +1,6 @@
 const { celebrate, Joi } = require('celebrate');
-const { regExpUrl } = require('../utils/constants');
+const validator = require('validator');
+// const { regExpUrl } = require('../utils/constants');
 
 const validateSignup = celebrate({
   body: Joi.object().keys({
@@ -30,9 +31,30 @@ const validateCreateMovie = celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().pattern(regExpUrl),
-    trailer: Joi.string().required().pattern(regExpUrl),
-    thumbnail: Joi.string().required().pattern(regExpUrl),
+    image: Joi.string()
+      .required()
+      .custom((value, helpers) => {
+        if (validator.isURL(value)) {
+          return value;
+        }
+        return helpers.message('Вы ввели невалидный url');
+      }),
+    trailer: Joi.string()
+      .required()
+      .custom((value, helpers) => {
+        if (validator.isURL(value)) {
+          return value;
+        }
+        return helpers.message('Вы ввели невалидный url');
+      }),
+    thumbnail: Joi.string()
+      .required()
+      .custom((value, helpers) => {
+        if (validator.isURL(value)) {
+          return value;
+        }
+        return helpers.message('Вы ввели невалидный url');
+      }),
     movield: Joi.number().integer().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
@@ -41,7 +63,8 @@ const validateCreateMovie = celebrate({
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.number().integer().required(),
+    // movield: Joi.number().integer().required(),
+    movield: Joi.string().hex().length(24).required(),
   }),
 });
 
