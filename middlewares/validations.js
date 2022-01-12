@@ -55,7 +55,7 @@ const validateCreateMovie = celebrate({
         }
         return helpers.message('Вы ввели невалидный url');
       }),
-    movield: Joi.number().integer().required(),
+    movieId: Joi.number().integer().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),
@@ -63,8 +63,8 @@ const validateCreateMovie = celebrate({
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    // movield: Joi.number().integer().required(),
-    movield: Joi.string().hex().length(24).required(),
+    // movieId: Joi.number().integer().required(),
+    movieId: Joi.string().hex().length(24).required(),
   }),
 });
 
