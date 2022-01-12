@@ -26,10 +26,8 @@ const {
   NODE_ENV = 'development',
   JWT_SECRET = 'some-secret-key',
   PORT = 3000,
-  MONGODB_URL = 'mongodb://localhost:27017/moviesexplorerdb',
+  MONGODB_URL = 'mongodb://localhost:27017/moviesdb',
 } = process.env;
-
-// const JWT_SECRET_KEY = NODE_ENV === 'production' ? JWT_SECRET : 'some-secret-key';
 
 module.exports = {
   errorCodes,

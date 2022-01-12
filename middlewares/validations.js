@@ -1,6 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
-// const { regExpUrl } = require('../utils/constants');
 
 const validateSignup = celebrate({
   body: Joi.object().keys({
@@ -63,7 +62,6 @@ const validateCreateMovie = celebrate({
 
 const validateDeleteMovie = celebrate({
   params: Joi.object().keys({
-    // movieId: Joi.number().integer().required(),
     movieId: Joi.string().hex().length(24).required(),
   }),
 });
