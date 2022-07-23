@@ -11,6 +11,9 @@ const {
   validateSignup,
 } = require('../middlewares/validations');
 const auth = require('../middlewares/auth');
+const verifyCors = require('../middlewares/cors');
+
+router.use(verifyCors);
 
 router.post('/signup', validateSignup, createUser);
 router.post('/signin', validateSignin, login);
