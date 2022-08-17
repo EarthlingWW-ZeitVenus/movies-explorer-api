@@ -56,7 +56,13 @@ const createUser = (req, res, next) => {
       const {
         name, email,
       } = user;
+      const token = jwt.sign(
+        { _id: user._id },
+        JWT_SECRET,
+        { expiresIn: '7d' },
+      );
       res
+	.cookie('jwt', token, COOKIE_OPTIONS)
         .status(RESOURCE_CREATED_SUCCESS)
         .send({
           data: {
