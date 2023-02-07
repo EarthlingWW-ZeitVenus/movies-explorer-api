@@ -18,7 +18,8 @@ const regExpUrl = /ht{2}ps?:\/\/(w{3}\.)?[\w-]+\.[\w-]+([./][^./][\w\-.~:/?#[\]@
 
 const COOKIE_OPTIONS = {
   httpOnly: true,
-//  sameSite: 'none',
+  sameSite: 'none',
+  secure: true,
   maxAge: 1000 * 60 * 60 * 24 * 7, // куки будет удален через неделю
 };
 

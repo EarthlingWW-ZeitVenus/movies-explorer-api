@@ -19,8 +19,8 @@ const getMovies = (req, res, next) => {
 
 const createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description, image,
-    trailer, thumbnail, movieId, nameRU, nameEN,
+    country, director, duration, year, description, imageUrl,
+    trailer, thumbnail, id, nameRU, nameEN,
   } = req.body;
   const owner = req.user._id;
   Movie.create({
@@ -29,9 +29,10 @@ const createMovie = (req, res, next) => {
     duration,
     year,
     description,
+    imageUrl,
     trailer,
     thumbnail,
-    movieId,
+    id,
     nameRU,
     nameEN,
     owner,
@@ -46,8 +47,8 @@ const createMovie = (req, res, next) => {
 };
 
 const deleteMovie = (req, res, next) => {
-  const { movieId } = req.params;
-  Movie.findById(movieId)
+  const { dbMovieId } = req.params;
+  Movie.findById(dbMovieId)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Фильм с указанным id, не найден');
@@ -55,7 +56,7 @@ const deleteMovie = (req, res, next) => {
       if (String(movie.owner._id) !== String(req.user._id)) {
         throw new AuthorizationError('Вы не можете удалять чужие фильмы');
       }
-      return Movie.findByIdAndRemove(movieId)
+      return Movie.findByIdAndRemove(dbMovieId)
         .then(() => {
           res.send({ message: `Фильм ${movie.nameRU} удален` });
         });
@@ -67,6 +68,7 @@ const deleteMovie = (req, res, next) => {
       return next(err);
     });
 };
+
 
 module.exports = {
   getMovies,

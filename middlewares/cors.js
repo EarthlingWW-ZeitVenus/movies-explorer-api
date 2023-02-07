@@ -1,7 +1,7 @@
 const allowedSites = [
   'http://localhost:3000',
-  'http://front.fake-server.local.org:3000',
-  'http://movie-explorer.nomoredomains.rocks:3000',
+  'https://movie-explorer-frontend.nomoredomains.icu',
+//  'http://movie-explorer.nomoredomains.rocks:3000',
 ];
 
 // console.log('Runcode in cors');

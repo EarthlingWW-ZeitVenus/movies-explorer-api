@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { regExpUrl } = require('../utils/constants');
+const validator = require('validator');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -22,15 +23,9 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
+  imageUrl: {
     type: String,
     required: true,
-    validate: {
-      validator(value) {
-        return regExpUrl.test(value);
-      },
-      message: (props) => `${props.value} - ссылка задана неверно`,
-    },
   },
   trailer: {
     type: String,
@@ -57,7 +52,7 @@ const movieSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  movieId: {
+  id: {
     type: Number,
     required: true,
   },

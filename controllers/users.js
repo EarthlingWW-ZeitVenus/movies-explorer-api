@@ -41,7 +41,7 @@ const login = (req, res, next) => {
 };
 
 const logout = (req, res) => res
-  .clearCookie('jwt')
+  .clearCookie('jwt', COOKIE_OPTIONS)
   .send({ message: 'Вы успешно вышли!' });
 
 const createUser = (req, res, next) => {
